@@ -9,9 +9,10 @@ const { ExpressInstrumentation } = require("opentelemetry-instrumentation-expres
 const { MongoDBInstrumentation } = require("@opentelemetry/instrumentation-mongodb");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { JaegerExporter} = require("@opentelemetry/exporter-jaeger");
 //Exporter
 module.exports = (serviceName) => {
-   const exporter = new ConsoleSpanExporter();
+   const exporter = new JaegerExporter();
    const provider = new NodeTracerProvider({
        resource: new Resource({
            [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
@@ -29,3 +30,4 @@ module.exports = (serviceName) => {
    });
    return trace.getTracer(serviceName);
 };
+
